@@ -39,30 +39,60 @@ public:
 	}
 };
 
-void Partition_list( Node* head, int X)
+Node* Partition_list( Node* head, int X)
 {
 	if ( head == NULL )
 	{
 		std::cout<<"Empty list!";
-		return;
+		return 0;
 	}
 	else
 	{
 		Node* BeforeX = NULL;
-		Node* BeforeX_copy = BeforeX;
+		Node* BeforeX_final = NULL;
 		Node* AfterX = NULL;
-		Node*AfterX_copy = AfterX;
+		Node* AfterX_final = NULL;
 
 		while( head != NULL )
 		{
 			int value = head->getData();
+			//std::cout<<value;
 			if ( value < X )
 			{
-				
-				
+				if ( BeforeX == NULL )
+				{
+					BeforeX = head;
+					//std::cout<<BeforeX->getData();
+					BeforeX_final = BeforeX;				
+				}
+				else
+				{
+					BeforeX->SetAddress( head );
+					BeforeX = head;
+				}	
 			}
+
+			else
+			{
+				if ( AfterX == NULL )
+				{
+					AfterX = head;
+					//std::cout<<BeforeX->getData();
+					AfterX_final = AfterX;				
+				}
+				else
+				{
+					AfterX->SetAddress( head );
+					AfterX = head;
+				}
+			}
+			head = head->getNextNode();
 		}
 
+		// Merging of two linked lists into one
+		BeforeX->SetAddress( AfterX_final );
+		AfterX->SetAddress( NULL );
+		return BeforeX_final;
 	}
 }
 
